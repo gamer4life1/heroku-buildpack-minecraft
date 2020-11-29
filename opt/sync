@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 if [ -n "$AWS_BUCKET" ]; then
-  cat << EOF > .s3cfg
+  cat <<EOF >.s3cfg
 [default]
 access_key = ${AWS_ACCESS_KEY}
 secret_key = ${AWS_SECRET_KEY}
@@ -18,7 +18,7 @@ EOF
 fi
 
 if [ -n "$DROPBOX_ACCESS_TOKEN" ]; then
-  cat << EOF > .dropbox_uploader
+  cat <<EOF >.dropbox_uploader
 OAUTH_ACCESS_TOKEN=${DROPBOX_ACCESS_TOKEN}
 EOF
   if [ -d world ]; then
@@ -26,8 +26,7 @@ EOF
     bin/dropbox_uploader.sh upload backup.tar.gz /
     rm backup.tar.gz
   else
-    if bin/dropbox_uploader.sh download /backup.tar.gz
-    then
+    if bin/dropbox_uploader.sh download /backup.tar.gz; then
       tar -xzvf backup.tar.gz
       rm backup.tar.gz
     fi
