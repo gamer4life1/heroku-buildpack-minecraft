@@ -13,7 +13,7 @@ export_env_dir() {
   if [ -d "$env_dir" ]; then
     for e in "$(ls "$env_dir")"; do
       echo "$e" | grep -E "$whitelist_regex" | grep -qvE "$blacklist_regex" &&
-      export "$e=$(cat "$env_dir/$e")"
+        export "$e=$(cat "$env_dir/$e")"
       :
     done
   fi
@@ -32,7 +32,6 @@ APT_OPTIONS="-o debug::nolocking=true -o dir::cache=$APT_CACHE_DIR -o dir::state
 
 mkdir -p "$APT_CACHE_DIR/archives/partial"
 mkdir -p "$APT_STATE_DIR/lists/partial"
-
 
 echo "-----> Installing s3cmd... "
 apt-get "$APT_OPTIONS" update | indent
@@ -58,8 +57,6 @@ for DEB in "$(ls -1 "$APT_CACHE_DIR"/archives/*.deb)"; do
   dpkg -x "$DEB" "$BUILD_DIR"/.apt/
 done
 
-
-
 minecraft_version=${MINECRAFT_VERSION:-"1.13"}
 
 if echo "$minecraft_version" | grep -q '^1\.13.*$'; then
@@ -81,13 +78,13 @@ echo "done"
 
 if [ -n "${MINECRAFT_EULA:-""}" ]; then
   echo -n "-----> Accepting Minecraft EULA... "
-  echo "eula=true" >> "$BUILD_DIR"/eula.txt
+  echo "eula=true" >>"$BUILD_DIR"/eula.txt
   echo "done"
 fi
 
 mkdir -p "$BUILD_DIR"/bin
-[ ! -f "$BUILD_DIR"/minecraft ]   && cp "$OPT_DIR"/minecraft "$BUILD_DIR"/bin
-[ ! -f "$BUILD_DIR"/sync ]        && cp "$OPT_DIR"/sync "$BUILD_DIR"/bin
+[ ! -f "$BUILD_DIR"/minecraft ] && cp "$OPT_DIR"/minecraft "$BUILD_DIR"/bin
+[ ! -f "$BUILD_DIR"/sync ] && cp "$OPT_DIR"/sync "$BUILD_DIR"/bin
 [ ! -f "$BUILD_DIR"/index.rhtml ] && cp "$OPT_DIR"/index.rhtml "$BUILD_DIR"
 
 chmod +x "$BUILD_DIR"/bin/minecraft

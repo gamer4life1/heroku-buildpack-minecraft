@@ -3,8 +3,6 @@
 mc_port=25566
 port=${1:-${PORT:-8080}}
 
-
-
 scmd=“autossh -M 0 -R minecraftC.serveo.net:"$mc_port:localhost:$mc_port" serveo.net”
 echo "Starting ssh..."
 eval "$scmd &"
@@ -16,25 +14,25 @@ bin/sync
 eval "while true; do sleep ${AWS_SYNC_INTERVAL:-60}; bin/sync; done &"
 sync_pid=$!
 
-cat "IP: mcats.serveo.net" > ngrok.log
+cat "IP: mcats.serveo.net" >ngrok.log
 
 # create server config
-echo "server-port=$mc_port" >> /app/server.properties
+echo "server-port=$mc_port" >>/app/server.properties
 for f in whitelist banned-players banned-ips ops; do
-  test ! -f "$f".json && echo -n "[]" > "$f".json
+  test ! -f "$f".json && echo -n "[]" >"$f".json
 done
 
 limit=$(ulimit -u)
 case $limit in
-  512)   # 2X Dyno
-  heap="768m"
-  ;;
+  512) # 2X Dyno
+    heap="768m"
+    ;;
   32768) # PX Dyno
-  heap="4g"
-  ;;
-  *)     # 1X Dyno
-  heap="384m"
-  ;;
+    heap="4g"
+    ;;
+  *) # 1X Dyno
+    heap="384m"
+    ;;
 esac
 
 echo "Starting: minecraft $mc_port"
