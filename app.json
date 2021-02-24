@@ -1,10 +1,7 @@
 {
   "name": "Minecraft",
   "description": "A Minecraft Server on Heroku",
-  "keywords": [
-    "games",
-    "minecraft"
-  ],
+  "keywords": ["games", "minecraft"],
   "repository": "https://github.com/jkutner/heroku-buildpack-minecraft",
   "env": {
     "MINECRAFT_EULA": {
